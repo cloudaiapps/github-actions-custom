@@ -1,0 +1,67 @@
+name: CT WorkFlow
+
+on:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  workflow_dispatch:
+      inputs:
+          environment-name:
+            description: Select the environment where testing will be performed
+            required: true
+            type: environment
+          testing-job-type:
+              description: Select the Testing job type
+              required: true
+              type: choice
+              options:
+              - progression
+              - regression
+              - performance
+              - load
+              - failover
+              - bvt
+jobs:
+  progression-job:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.testing-job-type == 'progression' }}
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
+  regression-job:
+    if: ${{ inputs.testing-job-type == 'regression' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
+  performance-job:
+    if: ${{ inputs.testing-job-type == 'performance' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
+  load-job:
+    if: ${{ inputs.testing-job-type == 'load' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
+  failover-job:
+    if: ${{ inputs.testing-job-type == 'failover' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
+  bvt-job:
+    if: ${{ inputs.testing-job-type == 'bvt' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    steps:
+      - name: xxx
+        run: echo "The job type is ${{ inputs.testing-job-type }} for ${{ inputs.environment-name }}"
