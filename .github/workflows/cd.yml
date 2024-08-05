@@ -1,0 +1,44 @@
+name: CD WorkFlow
+
+on:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  workflow_dispatch:
+      inputs:
+          environment-name:
+            description: Select the environment to deploy Micro Service
+            required: true
+            type: environment
+          microservice-image-name:
+            description: |
+              Enter the micro service image names in the array form eg: ['image-a', 'image-b', 'image-c']
+            required: true
+            type: string
+jobs:
+  images-download-job:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    strategy:
+        matrix:
+            environment-name: [ "${{ inputs.environment-name }}" ]
+            microservice-image-names: ${{ fromJson(inputs.microservice-image-name) }}
+    steps:
+      - name: images-download-job-step
+        run: |
+            echo "The inputs values are ${{ matrix.environment-name }} ${{ matrix.microservice-image-names }}"
+            echo "The secret is ${{ secrets.MY_SECRET }}"
+  images-deploy-job:
+    needs: images-download-job
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+    strategy:
+        matrix:
+            environment-name: [ "${{ inputs.environment-name }}" ]
+            microservice-image-names: ${{ fromJson(inputs.microservice-image-name) }}
+    steps:
+      - name: images-deploy-job-step
+        run: |
+            echo "The inputs values are ${{ matrix.environment-name }} ${{ matrix.microservice-image-names }}"
+            echo "The secret is ${{ secrets.MY_SECRET }}"
